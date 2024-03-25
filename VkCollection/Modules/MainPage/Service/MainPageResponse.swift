@@ -7,6 +7,10 @@
 
 import UIKit
 
-struct MainPageResponse: Decodable {
-    let response: [MainPageModel]
+struct MainPageResponse: Codable {
+    let body: Body
+    let status: Int
+}
+struct Body: Codable {
+    let services: [Service]
 }

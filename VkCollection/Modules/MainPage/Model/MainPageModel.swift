@@ -7,16 +7,13 @@
 
 import Foundation
 
-struct MainPageModel: Decodable {
-    var name: String
-    var description: String
-    var link: String
-    var iconURL: String
-    
+struct Service: Codable {
+    let name, description: String
+    let link: String
+    let iconURL: String
+
     enum CodingKeys: String, CodingKey {
-        case name
-        case description
-        case link
+        case name, description, link
         case iconURL = "icon_url"
     }
 }

@@ -10,7 +10,7 @@ import UIKit
 
 protocol MainPageInput: AnyObject {
     var title: String? { get set }
-    func setServicies(servicies: [MainPageModel])
+    func setServicies(servicies: [Service])
 }
 
 protocol MainPageOutput: AnyObject {

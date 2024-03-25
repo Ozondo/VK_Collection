@@ -10,9 +10,14 @@ import UIKit
 
 final class MainPageView: UIView {
     
-    var servicies: [MainPageModel] = []
+    var servicies: [Service] = []
     
     // MARK: - private properties
+    
+    private enum Const {
+        static let heightCell: CGFloat = 80
+    }
+    
     private let collectionOfServices: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -72,15 +77,15 @@ extension MainPageView: UICollectionViewDataSource, UICollectionViewDelegateFlow
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: bounds.width, height: 100)
+        return CGSize(width: bounds.width, height: Const.heightCell)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 1
+        return 0
     }
 }
 
 extension MainPageView {
-    func setServicies(info: [MainPageModel]) {
+    func setServicies(info: [Service]) {
         self.servicies = info
         
         collectionOfServices.reloadData()

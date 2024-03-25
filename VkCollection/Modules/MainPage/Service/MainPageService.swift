@@ -15,15 +15,15 @@ enum ApiError: Error{
 }
 
 protocol MainPageService {
-    func getWeather(completion: @escaping (Result<MainPageResponse, ApiError>) -> ())
+    func getService(completion: @escaping (Result<MainPageResponse, ApiError>) -> ())
 }
 final class MainPageServiceImpl: MainPageService {
     
     private enum Constants {
-        static let baseUrl = "https://publicstorage.hb.bizmrg.com/"
+        static let baseUrl = "https://publicstorage.hb.bizmrg.com"
     }
     
-    func getWeather(completion: @escaping (Result<MainPageResponse, ApiError>) -> ()) {
+    func getService(completion: @escaping (Result<MainPageResponse, ApiError>) -> ()) {
         let urlComponents = URLComponents(string: "\(Constants.baseUrl)/sirius/result.json")
 
         guard let url = urlComponents?.url else {

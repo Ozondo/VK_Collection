@@ -36,7 +36,7 @@ final class MainPageViewController: UIViewController, MainPageInput {
         let titleAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationController?.navigationBar.titleTextAttributes = titleAttributes
     }
-    func setServicies(servicies: [MainPageModel]) {
+    func setServicies(servicies: [Service]) {
         mainPageView.setServicies(info: servicies)
     }
 }

@@ -19,11 +19,11 @@ final class MainPagePresenter: MainPageOutput {
     func viewDidLoad() {
         view?.title = "Сервисы"
     
-        service.getWeather(completion: { [weak self] result in
+        service.getService(completion: { [weak self] result in
             switch result {
             case .success(let success):
                 DispatchQueue.main.async {
-                    self?.view?.setServicies(servicies: success.response)
+                    self?.view?.setServicies(servicies: success.body.services)
                 }
                 
             case .failure(let error):
