@@ -9,13 +9,16 @@ import UIKit
 
 final class MainPagePresenter: MainPageOutput {
     
-    
     weak var view: MainPageInput?
     private let service: MainPageService
+    private let router: MainPageRouter
+    private var response: MainPageResponse?
     
-    init(service: MainPageService) {
+    init(service: MainPageService, router: MainPageRouter) {
         self.service = service
+        self.router = router
     }
+    
     func viewDidLoad() {
         view?.title = "Сервисы"
     
@@ -30,5 +33,8 @@ final class MainPagePresenter: MainPageOutput {
                 print(error)
             }
         })
+    }
+    
+    func routeToService(index: Int) {
     }
 }

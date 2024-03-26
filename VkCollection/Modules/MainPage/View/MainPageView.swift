@@ -11,6 +11,7 @@ import UIKit
 final class MainPageView: UIView {
     
     var servicies: [Service] = []
+    var cellDidTapped: ((Int) -> Void)?
     
     // MARK: - private properties
     
@@ -71,16 +72,22 @@ extension MainPageView: UICollectionViewDataSource, UICollectionViewDelegateFlow
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "id", for: indexPath) as? MainPageViewCell else { return MainPageViewCell()  }
         let itemsForCell = servicies[indexPath.item]
+
         cell.setServiciesForCell(info: itemsForCell)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
+        
         return CGSize(width: bounds.width, height: Const.heightCell)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        cellDidTapped?(indexPath.item)
     }
 }
 

@@ -8,7 +8,7 @@
 import UIKit
 
 final class MainPageViewController: UIViewController, MainPageInput {
-    
+
     // MARK: - private properties
     private let mainPageView = MainPageView()
     private let presenter: MainPageOutput
@@ -26,6 +26,8 @@ final class MainPageViewController: UIViewController, MainPageInput {
     override func viewDidLoad() {
         super.viewDidLoad()
         titleSetup()
+        getService()
+        
         presenter.viewDidLoad()
     }
     
@@ -39,5 +41,12 @@ final class MainPageViewController: UIViewController, MainPageInput {
     func setServicies(servicies: [Service]) {
         mainPageView.setServicies(info: servicies)
     }
+    
+    func getService() {
+        mainPageView.cellDidTapped = { [weak self] index in
+            self?.presenter.routeToService(index: index)
+        }
+    }
+
 }
 

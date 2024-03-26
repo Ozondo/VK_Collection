@@ -44,7 +44,7 @@ final class MainPageViewCell: UICollectionViewCell {
     private let char: UILabel = {
         let description = UILabel()
         description.text = ">"
-        description.textColor = .white
+        description.textColor = .lightGray
         return description
     }()
     
@@ -64,7 +64,7 @@ final class MainPageViewCell: UICollectionViewCell {
         [name,
          icon,
          descriptionOfService,
-         //char
+         char
         ].forEach { element in
             contentView.addSubview(element)
             element.translatesAutoresizingMaskIntoConstraints = false
@@ -87,7 +87,11 @@ final class MainPageViewCell: UICollectionViewCell {
             
             name.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Const.topOrBottomConst),
             name.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: Const.leadingOrTrailingConst),
-            name.bottomAnchor.constraint(equalTo: icon.centerYAnchor)
+            name.bottomAnchor.constraint(equalTo: icon.centerYAnchor),
+            
+            
+            char.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            char.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
 }

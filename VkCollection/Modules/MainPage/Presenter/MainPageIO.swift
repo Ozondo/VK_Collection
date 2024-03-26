@@ -11,8 +11,10 @@ import UIKit
 protocol MainPageInput: AnyObject {
     var title: String? { get set }
     func setServicies(servicies: [Service])
+    func getService()
 }
 
 protocol MainPageOutput: AnyObject {
     func viewDidLoad()
+    func routeToService(index: Int)
 }
