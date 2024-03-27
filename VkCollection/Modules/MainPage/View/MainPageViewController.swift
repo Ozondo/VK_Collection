@@ -8,7 +8,6 @@
 import UIKit
 
 final class MainPageViewController: UIViewController, MainPageInput {
-
     // MARK: - private properties
     private let mainPageView = MainPageView()
     private let presenter: MainPageOutput
@@ -23,30 +22,31 @@ final class MainPageViewController: UIViewController, MainPageInput {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        titleSetup()
-        getService()
-        
-        presenter.viewDidLoad()
-    }
-    
     override func loadView() {
         view = mainPageView
     }
-    private func titleSetup() {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setUp()
+        
+        presenter.viewDidLoad()
+    }
+
+    // MARK: - MainPageInput
+    func setServices(services: [MainPageServiceModel]) {
+        mainPageView.setServices(info: services)
+    }
+
+    // MARK: - private
+    private func setUp() {
         let titleAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationController?.navigationBar.titleTextAttributes = titleAttributes
-    }
-    func setServicies(servicies: [Service]) {
-        mainPageView.setServicies(info: servicies)
-    }
-    
-    func getService() {
+        navigationController?.navigationBar.barTintColor = .black
+        navigationController?.navigationBar.isTranslucent = false
+        
         mainPageView.cellDidTapped = { [weak self] index in
             self?.presenter.routeToService(index: index)
         }
     }
-
 }
-

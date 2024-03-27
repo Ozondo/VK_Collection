@@ -7,22 +7,26 @@
 
 import UIKit
 
-
 final class MainPageView: UIView {
-    
-    var servicies: [Service] = []
+    var services: [MainPageServiceModel] = []
     var cellDidTapped: ((Int) -> Void)?
     
     // MARK: - private properties
-    
-    private enum Const {
-        static let heightCell: CGFloat = 80
-    }
-    
     private let collectionOfServices: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(50)
+        )
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(50)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        let layout = UICollectionViewCompositionalLayout(section: section)
+        
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .clear
         return collectionView
     }()
     
@@ -42,17 +46,20 @@ final class MainPageView: UIView {
     private func collectionSetup() {
         collectionOfServices.dataSource = self
         collectionOfServices.delegate = self
-        collectionOfServices.register(MainPageViewCell.self, forCellWithReuseIdentifier: "id")
+        collectionOfServices.register(
+            MainPageViewCell.self,
+            forCellWithReuseIdentifier: MainPageViewCell.identifier
+        )
     }
     
     // MARK: - private methods
     private func viewSetup(){
-        [collectionOfServices
-        ].forEach { element in
-            addSubview(element)
-            element.translatesAutoresizingMaskIntoConstraints = false
-        }
+        addSubview(collectionOfServices)
+        collectionOfServices.translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = .black
+        collectionOfServices.backgroundColor = .black
     }
+    
     private func layoutElements() {
         NSLayoutConstraint.activate([
             collectionOfServices.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
@@ -63,25 +70,23 @@ final class MainPageView: UIView {
     }
 }
 
-    // MARK: - UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
+// MARK: - UICollectionViewDataSource, UICollectionViewDelegateFlowLayout
 extension MainPageView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout  {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return servicies.count
+        return services.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "id", for: indexPath) as? MainPageViewCell else { return MainPageViewCell()  }
-        let itemsForCell = servicies[indexPath.item]
-
-        cell.setServiciesForCell(info: itemsForCell)
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: MainPageViewCell.identifier,
+            for: indexPath
+        ) as? MainPageViewCell else { return MainPageViewCell()  }
+        let itemsForCell = services[indexPath.item]
+        
+        cell.setInfo(itemsForCell)
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        
-        return CGSize(width: bounds.width, height: Const.heightCell)
-    }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
@@ -92,8 +97,8 @@ extension MainPageView: UICollectionViewDataSource, UICollectionViewDelegateFlow
 }
 
 extension MainPageView {
-    func setServicies(info: [Service]) {
-        self.servicies = info
+    func setServices(info: [MainPageServiceModel]) {
+        self.services = info
         
         collectionOfServices.reloadData()
     }

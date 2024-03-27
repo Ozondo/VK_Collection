@@ -1,32 +1,28 @@
-//
-//  MainPageViewCell.swift
-//  VkCollection
-//
-//  Created by Егор Иванов on 25.03.2024.
-//
-
 import UIKit
 import Kingfisher
 
-
 final class MainPageViewCell: UICollectionViewCell {
+    
+    static let identifier = "MainPageViewCell"
     
     // MARK: - private properties
     private enum Const {
-        static let heightImage: CGFloat = 70
-        static let widthImage: CGFloat = 70
-        static let leadingOrTrailingConst: CGFloat = 10
-        static let topOrBottomConst: CGFloat = 10
+        static let heightImage: CGFloat = 60
+        static let widthImage: CGFloat = 60
+        static let sideOffset: CGFloat = 10
+        static let sideOffsetImage: CGFloat = -20
+        static let sideOffsetLabelsToImage: CGFloat = -30
     }
     
-    private let name: UILabel = {
-        let name = UILabel()
-        name.font = UIFont.systemFont(ofSize: 18)
-        name.textColor = .white
-        return name
+    private let nameLabel: UILabel = {
+        let nameLabel = UILabel()
+        nameLabel.font = UIFont.systemFont(ofSize: 18)
+        nameLabel.textAlignment = .left
+        nameLabel.textColor = .white
+        return nameLabel
     }()
     
-    private let descriptionOfService: UILabel = {
+    private let descriptionLabel: UILabel = {
         let description = UILabel()
         description.textColor = .white
         description.font = UIFont.systemFont(ofSize: 12)
@@ -35,17 +31,17 @@ final class MainPageViewCell: UICollectionViewCell {
         return description
     }()
     
-    private let icon: UIImageView = {
+    private let iconImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
         return image
     }()
     
-    private let char: UILabel = {
-        let description = UILabel()
-        description.text = ">"
-        description.textColor = .lightGray
-        return description
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "chevron.right")
+        imageView.tintColor = .lightGray
+        return imageView
     }()
     
     // MARK: - init
@@ -53,6 +49,7 @@ final class MainPageViewCell: UICollectionViewCell {
         super.init(frame: .zero)
         viewSetup()
         layoutObjects()
+        backgroundColor = .black
     }
     
     required init?(coder: NSCoder) {
@@ -61,10 +58,10 @@ final class MainPageViewCell: UICollectionViewCell {
     
     // MARK: - private properties
     private func viewSetup() {
-        [name,
-         icon,
-         descriptionOfService,
-         char
+        [nameLabel,
+         iconImageView,
+         descriptionLabel,
+         imageView
         ].forEach { element in
             contentView.addSubview(element)
             element.translatesAutoresizingMaskIntoConstraints = false
@@ -72,34 +69,40 @@ final class MainPageViewCell: UICollectionViewCell {
     }
     
     private func layoutObjects() {
+        imageView.setContentHuggingPriority(.required, for: .vertical)
+        imageView.setContentHuggingPriority(.required, for: .horizontal)
+        imageView.setContentCompressionResistancePriority(.required, for: .vertical)
+        imageView.setContentCompressionResistancePriority(.required, for: .horizontal)
+        
+        nameLabel.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        
         NSLayoutConstraint.activate([
-            icon.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Const.topOrBottomConst),
-            icon.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Const.leadingOrTrailingConst),
-            icon.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Const.topOrBottomConst),
-            icon.widthAnchor.constraint(equalToConstant: Const.widthImage),
-            icon.heightAnchor.constraint(equalToConstant: Const.heightImage),
+            iconImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Const.sideOffset),
+            iconImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Const.sideOffset),
+            iconImageView.widthAnchor.constraint(equalToConstant: Const.widthImage),
+            iconImageView.heightAnchor.constraint(equalToConstant: Const.heightImage),
+            iconImageView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -Const.sideOffset),
             
+            descriptionLabel.topAnchor.constraint(equalTo: iconImageView.centerYAnchor),
+            descriptionLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: Const.sideOffset),
+            descriptionLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -Const.sideOffset),
+            descriptionLabel.trailingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: Const.sideOffsetLabelsToImage),
             
-            descriptionOfService.topAnchor.constraint(equalTo: icon.centerYAnchor),
-            descriptionOfService.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: Const.leadingOrTrailingConst),
-            descriptionOfService.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Const.topOrBottomConst),
-            descriptionOfService.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -40),
+            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Const.sideOffset),
+            nameLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: Const.sideOffset),
+            nameLabel.bottomAnchor.constraint(equalTo: iconImageView.centerYAnchor),
+            nameLabel.trailingAnchor.constraint(equalTo: imageView.leadingAnchor, constant: Const.sideOffsetLabelsToImage),
             
-            name.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Const.topOrBottomConst),
-            name.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: Const.leadingOrTrailingConst),
-            name.bottomAnchor.constraint(equalTo: icon.centerYAnchor),
-            
-            
-            char.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            char.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: Const.sideOffsetImage),
+            imageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
     }
 }
 
 extension MainPageViewCell {
-    func setServiciesForCell(info: Service) {
-        name.text = info.name
-        descriptionOfService.text = info.description
-        icon.kf.setImage(with: URL(string: info.iconURL))
+    func setInfo(_ info: MainPageServiceModel) {
+        nameLabel.text = info.name
+        descriptionLabel.text = info.description
+        iconImageView.kf.setImage(with: URL(string: info.iconURL))
     }
 }

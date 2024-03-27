@@ -7,10 +7,11 @@
 
 import Foundation
 
-struct Service: Codable {
-    let name, description: String
-    let link: String
+struct MainPageServiceModel: Decodable {
+    let link: URL
+    let name: String
     let iconURL: String
+    let description: String
 
     enum CodingKeys: String, CodingKey {
         case name, description, link

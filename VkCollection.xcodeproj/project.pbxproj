@@ -157,7 +157,6 @@
 			isa = PBXGroup;
 			children = (
 				1A03B7F42BB1F1AA00B373BF /* MainPageService.swift */,
-				1A03B7FE2BB1FFAD00B373BF /* MainPageResponse.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -165,6 +164,7 @@
 		1A03B7F62BB1F31D00B373BF /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				1A03B7FE2BB1FFAD00B373BF /* MainPageResponse.swift */,
 				1A03B7F72BB1F32A00B373BF /* MainPageModel.swift */,
 			);
 			path = Model;
